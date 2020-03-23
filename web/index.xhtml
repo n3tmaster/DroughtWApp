@@ -1,0 +1,199 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+
+<f:view>
+   <h:head>
+
+      <!-- for OpenLayers integration -->
+
+      <!-- Old version
+      <link rel="stylesheet" href="https://openlayers.org/en/v4.6.5/css/ol.css" type="text/css" />
+      -->
+
+      <link rel="stylesheet" href="css/ch01.css" />
+      <link rel="stylesheet" href="css/pf.css" />
+      <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/openlayers/openlayers.github.io@master/en/v6.2.1/css/ol.css" />
+
+
+      <script type="text/javascript" src="https://cdn.rawgit.com/openlayers/openlayers.github.io/master/en/v5.3.0/build/ol.js" ></script>
+
+
+      <script type="text/javascript"  src="js/basefuncs.js" ></script>
+      <script type="text/javascript"  src="js/charts.js" ></script>
+
+
+      <link rel="stylesheet" href="css/ch01.css" />
+      <link rel="stylesheet" href="css/pf.css" />
+      <h:outputStylesheet name="primeicons/primeicons.css" library="primefaces"/>
+      <!--  -->
+      <title>Drought Observatory</title>
+   </h:head>
+
+   <h:body>
+
+
+      <h:outputScript library="webjars" name="/jqplot/1.0.9.d96a669/plugins/jqplot.canvasOverlay.js" target="head" />
+
+      <p:ajaxStatus onstart="PF('statusDialog').show()" onsuccess="PF('statusDialog').hide()" />
+      <p:growl id="growl" showSummary="true" showDetail="true">
+         <p:autoUpdate />
+      </p:growl>
+
+      <p:dialog widgetVar="statusDialog" modal="true" draggable="false" closable="false" resizable="false" showHeader="false">
+         <p:graphicImage url="resources/images/statusbar.gif" />
+         <p:progressBar id="progressBarClient" widgetVar="pbClient" />
+      </p:dialog>
+
+      <!-- Dialog for error message -->
+      <p:dialog widgetVar="dlgError" showEffect="fade" modal="true" header="Message" closable="true" resizable="false">
+         <p:outputPanel id="errorMessage" binding="#{errorMessage}" >
+            <h3>Coming soon...</h3>
+            This function is available for SPI3, SPI6, SPI12, TCI, VCI, E-VCI, VHI datasets
+         </p:outputPanel>
+      </p:dialog>
+
+      <!-- Dialog for exporting imgae -->
+      <p:dialog widgetVar="dlgExport" showEffect="fade" modal="true" header="Chart as an Image">
+         <p:outputPanel id="exportChart" binding="#{exportChart}" layout="block" style="width:1200px;height:800px" />
+      </p:dialog>
+
+      <!-- Dialog for viewing chart -->
+      <p:dialog id="graphDlg" binding="#{graphDlg}" widgetVar="graphDlg" modal="true" draggable="true" closable="true"
+                resizable="true" showHeader="true" width="800" height="400">
+
+         <p:chart id="seriesChart" binding="#{seriesChart}" type="line" model="#{statSeriesBean.model}"
+                  responsive="true" style="height: 90%" widgetVar="seriesChart"  />
+
+
+         <p:commandButton type="button" id="resetChart"
+                          binding="#{resetChart}"
+                          update=":#{seriesChart.clientId}"
+                          icon="fa fa-rotate-left"
+                          onclick="PF('seriesChart').resetZoom()"/>
+
+       <!--  <p:commandButton type="button"  icon="fa fa-save" onclick="exportChart()"/> -->
+
+
+      </p:dialog>
+
+
+      <p:layout fullPage="true" id="maingui" binding="#{maingui}">
+         <p:layoutUnit binding="#{toolb}" position="north" size="50" >
+            <div id="toolbar" class="toolbar" style="height: 99%;">
+
+               <p:graphicImage url="resources/images/logo_header_observatory.png"  />
+
+            </div>
+         </p:layoutUnit>
+
+         <p:layoutUnit position="west" size="300">
+            <h:form  id="formId">
+
+               <p:commandButton id="hdnChartBtn" actionListener="#{statSeriesBean.updateSPISeries}" style="display: none;"
+                                binding="#{hdnChartBtn}"
+                                update=":#{maingui.clientId} :#{seriesChart.clientId}" />
+
+               <h:inputHidden id="tx" value="#{statSeriesBean.thisX}" />
+               <h:inputHidden id="ty" value="#{statSeriesBean.thisY}" />
+
+               <p:selectBooleanButton binding="#{actDefault}"  id="actDefault" value="#{olManager.valueDefault}"
+                                      onIcon="fa fa-square-o"
+                                      onchange="changeDefault()"
+                                      offIcon="fa fa-square-o" offLabel="" onLabel="">
+                  <p:ajax update=":#{actFree.clientId} :#{actDefault.clientId} :#{actMode.clientId}" listener="#{olManager.activateDefault}" />
+               </p:selectBooleanButton>
+               <p:tooltip for="actDefault" value="Default Area"/>
+               <p:selectBooleanButton binding="#{actFree}"  id="actFree" value="#{olManager.valueFree}"
+                                      onIcon="fa fa-pencil"
+                                      onchange="changeFree()"
+                                      offIcon="fa fa-pencil" offLabel="" onLabel="">
+                  <p:ajax update=":#{actFree.clientId} :#{actDefault.clientId} :#{actMode.clientId}" listener="#{olManager.activateFree}" />
+               </p:selectBooleanButton>
+               <p:tooltip for="actFree" value="Draw Polygon"/>
+              <!-- onIcon="pi pi-chart-bar"
+               offIcon="pi pi-chart-bar" -->
+               <p:selectBooleanButton binding="#{actMode}"  id="actMode" value="#{olManager.valueIdentify}"
+
+                                      onIcon="pi pi-chart-bar"
+                                      offIcon="pi pi-chart-bar"
+                                      onchange="changeIdentify()"
+                                       offLabel="" onLabel="" >
+                  <p:ajax update=":#{actFree.clientId} :#{actDefault.clientId} :#{actMode.clientId}" listener="#{olManager.activateIdentify}" />
+
+               </p:selectBooleanButton>
+               <p:tooltip for="actMode" value="Chart Line"/>
+
+          <!--     <p:selectBooleanButton binding="#{actMode}"  id="actMode" value="#{olManager.value}"
+                                      onchange="changeMode()" onLabel="Free Drawing Mode"
+                                      offLabel="Default Area" onIcon="ui-icon-check"
+                                      offIcon="ui-icon-close" style="width:99%;">
+
+               </p:selectBooleanButton>
+-->
+
+
+               <p:accordionPanel id="accPanel" value="#{olManager.imageTypeList}" var="listItem" style="width:90%;">
+
+                  <p:ajax event="tabChange" listener="#{olManager.onChange}" update=":#{timelineComp.clientId}"/>
+
+                  <p:tab title="#{listItem.description}">
+
+
+                     <p:panelGrid columns="1" layout="grid">
+                        <p:graphicImage url="resources/images/#{listItem.legend}" width="100%" />
+
+
+
+
+
+                     </p:panelGrid>
+                     <p:commandButton icon="fa fa-download" onclick="downloadImg()" />
+                     <p:commandButton  icon="pi pi-info-circle"  disabled="false" onclick="showMessage('#{listItem.info}')"/>
+                  </p:tab>
+
+               </p:accordionPanel>
+
+            </h:form>
+         </p:layoutUnit>
+
+         <p:layoutUnit position="center">
+            <!-- map element for OpenLayers -->
+            <div id="map" class="map" style="width: 100%; height: 100%;"/>
+         </p:layoutUnit>
+         <p:layoutUnit position="south" size="190">
+
+               <p:timeline id="timelineComp" binding="#{timelineComp}"
+                           value="#{timeLine.model}" height="170px" width="99%"
+                           selectable="#{timeLine.selectable}"
+                           unselectable="#{timeLine.unselectable}"
+                           zoomable="#{timeLine.zoomable}"
+                           moveable="#{timeLine.moveable}"
+                           zoomMax="#{timeLine.zoomMax}"
+                           zoomMin="#{timeLine.zoomMin}"
+                           start="#{timeLine.dI}"
+                           end="#{timeLine.dF}"
+                           stackEvents="#{timeLine.stackEvents}"
+                           axisOnTop="#{timeLine.axisOnTop}"
+                           eventStyle="#{timeLine.eventStyle}"
+                           browserTimeZone="null"
+                           showCurrentTime="#{timeLine.showCurrentTime}"
+                           showNavigation="#{timeLine.showNavigation}">
+                  <p:ajax event="select" listener="#{timeLine.onSelect}"/>
+               </p:timeline>
+
+         </p:layoutUnit>
+      </p:layout>
+
+   </h:body>
+
+</f:view>
+</html>

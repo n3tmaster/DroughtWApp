@@ -1,0 +1,8 @@
+{
+  "name": "dogui",
+  "version": "1.0.0",
+  "dependencies": {
+    "ol": "latest",
+    "fusioncharts": "latest"
+  }
+}

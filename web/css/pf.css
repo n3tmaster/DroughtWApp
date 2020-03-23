@@ -1,0 +1,130 @@
+/**
+Layout customization
+ */
+
+/**
+AccordionPanel customization
+ */
+
+
+.timeline-frame{
+    border-color: #2b2b2b;
+    background-color: #2b2b2b;
+}
+
+.ui-layout-unit.ui-corner-all{
+    background-color: #2b2b2b;
+}
+
+.ui-layout-container .ui-layout-unit{
+    border-width: 0px;
+}
+
+.icon-download{
+    icon: url("../resources/images/download_icon.svg");
+}
+
+.ui-layout-resizer{
+    background-color: #2b2b2b;
+}
+
+.ui-layout-resizer-west{
+    background-color: #2b2b2b;
+}
+
+.ui-layout-resizer-open{
+    background-color: #2b2b2b;
+}
+
+.ui-layout-resizer-west-open{
+    background-color: #2b2b2b;
+}
+
+
+.ui-layout-unit-content{
+    background-color: #2b2b2b;
+}
+
+.ui-accordion .ui-icon.ui-icon-triangle-1-e {
+    background-image: url("../resources/images/ic_radio_button_unchecked_white_24px.svg");
+}
+.ui-accordion .ui-icon.ui-icon-triangle-1-s {
+    background-image: url("../resources/images/ic_radio_button_checked_white_24px.svg");
+}
+
+/**
+.ui-accordion .ui-accordion-header.ui-state-active {
+    background-color: #ff8c00;
+}
+
+.ui-accordion .ui-accordion-header.ui-state-hover {
+    background-color: #ff8c00;
+}
+
+.ui-accordion.ui-tabs-outline {
+    background-color: #ff8c00;
+}
+*/
+
+.ui-accordion-header {
+    background-color: #2b2b2b;
+}
+.ui-accordion-header.ui-state-default {
+    background-color: #2b2b2b;
+}
+
+.ui-selectbooleanbutton{
+    background-color: #fdc700;
+}
+
+.ui-selectbooleanbutton.ui-button{
+    background-color: #fdc700;
+    color: #2b2b2b;
+}
+
+.ui-selectbooleanbutton.ui-state-default{
+    background-color: #fdc700;
+    color: #2b2b2b;
+}
+
+.ui-selectbooleanbutton.ui-state-hover{
+    background-color: #ff8c00;
+    color: #2b2b2b;
+}
+
+.ui-selectbooleanbutton.ui-state-active{
+    background-color: #ff8c00;
+    color: #2b2b2b;
+}
+
+
+.timeline-event{
+    font-size: 9px;
+    font-weight: bold;
+
+}
+
+.timeline-frame {
+    color: #f4f7f9;
+}
+.timeline-frame {
+    color: #ffffff;
+}
+
+.olImageStatic{
+    image-rendering: -moz-crisp-edges;
+    -ms-interpolation-mode: nearest-neighbor;
+    image-rendering: -webkit-optimize-contrast;
+}
+
+.olImage{
+    image-rendering: -moz-crisp-edges;
+    -ms-interpolation-mode: nearest-neighbor;
+    image-rendering: -webkit-optimize-contrast;
+}
+
+.olTileImage{
+    image-rendering: -moz-crisp-edges;
+    -ms-interpolation-mode: nearest-neighbor;
+    image-rendering: -webkit-optimize-contrast;
+}

@@ -1,0 +1,13 @@
+<component name="libraryTable">
+  <library name="Maven: org.webjars:explorercanvas:r3">
+    <CLASSES>
+      <root url="jar://$MAVEN_REPOSITORY$/org/webjars/explorercanvas/r3/explorercanvas-r3.jar!/" />
+    </CLASSES>
+    <JAVADOC>
+      <root url="jar://$MAVEN_REPOSITORY$/org/webjars/explorercanvas/r3/explorercanvas-r3-javadoc.jar!/" />
+    </JAVADOC>
+    <SOURCES>
+      <root url="jar://$MAVEN_REPOSITORY$/org/webjars/explorercanvas/r3/explorercanvas-r3-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>

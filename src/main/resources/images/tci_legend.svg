@@ -1,0 +1,226 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Generator: Adobe Illustrator 22.1.0, SVG Export Plug-In . SVG Version: 6.00 Build 0)  -->
+
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:xlink="http://www.w3.org/1999/xlink"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   version="1.1"
+   id="Layer_1"
+   x="0px"
+   y="0px"
+   viewBox="0 0 792 513.3"
+   style="enable-background:new 0 0 792 513.3;"
+   xml:space="preserve"
+   inkscape:version="0.91 r13725"
+   sodipodi:docname="LEGENDA VCI_TCI_R_vert_svg_eng.svg"><metadata
+     id="metadata87"><rdf:RDF><cc:Work
+         rdf:about=""><dc:format>image/svg+xml</dc:format><dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" /></cc:Work></rdf:RDF></metadata><defs
+     id="defs85" /><sodipodi:namedview
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1"
+     objecttolerance="10"
+     gridtolerance="10"
+     guidetolerance="10"
+     inkscape:pageopacity="0"
+     inkscape:pageshadow="2"
+     inkscape:window-width="518"
+     inkscape:window-height="405"
+     id="namedview83"
+     showgrid="false"
+     inkscape:zoom="0.36"
+     inkscape:cx="396"
+     inkscape:cy="238.4416"
+     inkscape:window-x="276"
+     inkscape:window-y="492"
+     inkscape:window-maximized="0"
+     inkscape:current-layer="Layer_1" /><style
+     type="text/css"
+     id="style3">
+	.st0{fill:#AA3A24;}
+	.st1{fill:#DA7A24;}
+	.st2{fill:#F1B310;}
+	.st3{fill:#FCF103;}
+	.st4{fill:#A4FF74;}
+	.st5{fill:#1BA87D;}
+	.st6{fill:#19758C;}
+	.st7{fill:none;}
+	.st8{fill:#FFFFBF;}
+	.st9{font-family:'Arial-BoldMT';}
+	.st10{font-size:25px;}
+	.st11{font-size:19px;}
+	.st12{fill:#0B2C7B;}
+	.st13{fill:#FFFFFF;}
+</style><rect
+     x="27.026878"
+     y="31"
+     class="st0"
+     width="167.49193"
+     height="92"
+     id="rect5"
+     style="fill:#aa3a24" /><rect
+     x="27.026878"
+     y="122.5"
+     class="st1"
+     width="167.49193"
+     height="92"
+     id="rect7"
+     style="fill:#da7a24" /><rect
+     x="27.026878"
+     y="214"
+     class="st2"
+     width="167.49193"
+     height="92"
+     id="rect9"
+     style="fill:#f1b310" /><rect
+     x="26.5"
+     y="306.5"
+     class="st3"
+     width="167.49193"
+     height="92"
+     id="rect11"
+     style="fill:#fcf103" /><rect
+     x="402"
+     y="29"
+     class="st4"
+     width="168.39474"
+     height="92"
+     id="rect13"
+     style="fill:#a4ff74" /><rect
+     x="402"
+     y="120"
+     class="st5"
+     width="168.98872"
+     height="92"
+     id="rect15"
+     style="fill:#1ba87d" /><rect
+     x="402"
+     y="212"
+     class="st6"
+     width="168.81322"
+     height="92"
+     id="rect17"
+     style="fill:#19758c" /><polygon
+     class="st7"
+     points="546.9,144.8 531,144.8 531,144.8 "
+     id="polygon19"
+     transform="translate(-24,0)"
+     style="fill:none" /><image
+     sodipodi:absref="D:\DATI\Monitoraggio_siccita\Web\Drought Observatory\WebGIS\SVG\Legende_ING\..\.\..\Legende.png"
+     xlink:href="..\.\..\Legende.png"
+     id="image21"
+     transform="matrix(0.4646,0,0,0.5025,45.1284,541.5)"
+     height="720"
+     width="1280"
+     style="overflow:visible;enable-background:new" /><rect
+     x="27.026878"
+     y="398.5"
+     class="st8"
+     width="166.56757"
+     height="92"
+     id="rect23"
+     style="fill:#ffffbf" /><g
+     id="g27"
+     transform="translate(38,0)"><text
+       style="font-size:39.63954163px;font-family:Arial-BoldMT"
+       id="text29"
+       class="st9 st10"
+       transform="scale(0.96126506,1.0402958)"
+       x="174.5248"
+       y="84.917091">0 - 6</text>
+<g
+       id="g31"
+       transform="matrix(1.4101139,0,0,1.6494739,-85.973891,-107.31008)"><text
+         style="font-size:25px;font-family:Arial-BoldMT"
+         id="text33"
+         class="st9 st10"
+         transform="translate(178.6284,174.1104)">6 - 12</text>
+</g><g
+       id="g35"
+       transform="matrix(1.3011895,0,0,1.6618652,-66.628231,-167.79794)"><text
+         style="font-size:25px;font-family:Arial-BoldMT"
+         id="text37"
+         class="st9 st10"
+         transform="translate(178.6284,265.6099)">12 - 24</text>
+</g><g
+       id="g39"
+       transform="matrix(1.3488561,0,0,1.5878402,-72.95438,-200.71965)"><text
+         style="font-size:25px;font-family:Arial-BoldMT"
+         id="text41"
+         class="st9 st10"
+         transform="translate(178.6284,358.1102)">24 - 36</text>
+</g><g
+       id="g43"
+       transform="matrix(1.343958,0,0,1.5878402,-72.267642,-256.80095)"><text
+         style="font-size:25px;font-family:Arial-BoldMT"
+         id="text45"
+         class="st9 st10"
+         transform="translate(179.1284,450.1102)">36 - 48</text>
+</g></g><g
+     id="g47"
+     transform="matrix(1.82071,0,0,1.8232942,-54.814586,-362.89532)"><g
+       id="g49"><text
+         transform="translate(69.7983,448.0723)"
+         class="st9 st11"
+         id="text51"
+         style="font-size:19px;font-family:Arial-BoldMT">FAIR</text>
+</g></g><rect
+     x="402"
+     y="304.5"
+     class="st12"
+     width="169.28571"
+     height="92"
+     id="rect53"
+     style="fill:#0b2c7b" /><g
+     id="g55"
+     transform="translate(-12,0)"><g
+       id="g59"
+       transform="matrix(1.3785856,0,0,1.6030829,-186.85977,-40.828068)"><text
+         style="font-size:25px;font-family:Arial-BoldMT"
+         id="text61"
+         class="st9 st10"
+         transform="translate(566.3121,80.6101)">48 - 60</text>
+</g><g
+       id="g63"
+       transform="matrix(1.4829066,0,0,1.5911538,-246.46494,-92.83954)"><text
+         style="font-size:25px;font-family:Arial-BoldMT"
+         id="text65"
+         class="st9 st10"
+         transform="translate(566.6147,173.6101)">60 - 72</text>
+</g><g
+       id="g67"
+       transform="matrix(1.2987285,0,0,1.8350379,-141.87645,-210.09019)"><text
+         style="font-size:25px;font-family:Arial-BoldMT"
+         id="text69"
+         class="st9 st10"
+         transform="translate(566.6143,265.6102)">72 - 84</text>
+</g><g
+       id="g71"
+       transform="matrix(1.320802,0,0,1.6958649,-153.99453,-239.44266)"><text
+         style="font-size:25px;font-family:Arial-BoldMT"
+         id="text73"
+         class="st9 st10"
+         transform="translate(565.6143,358.1102)">84 - 100</text>
+</g></g><g
+     id="g75"
+     transform="matrix(1.4444449,0,0,1.7935301,-216.74171,-278.76761)"><g
+       id="g77"><text
+         transform="translate(431.8037,356.0723)"
+         class="st13 st9 st11"
+         id="text79"
+         style="font-size:19px;font-family:Arial-BoldMT;fill:#ffffff">FAVORABLE</text>
+</g></g><text
+     transform="scale(0.93623405,1.068109)"
+     class="st13 st9 st11"
+     id="text81"
+     style="font-size:30.81829834px;font-family:Arial-BoldMT;fill:#ffffff"
+     x="37.131313"
+     y="80.867157">STRESSED</text>
+</svg>
