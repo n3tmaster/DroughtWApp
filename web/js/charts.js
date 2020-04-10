@@ -90,11 +90,10 @@ function chartExtenderVCI() {
 
 }
 
-/*
+
 function exportChart() {
 
     $('#exportChart').empty().append(PF('seriesChart').exportAsImage());
 
     PF('dlgExport').show();
 }
-*/
