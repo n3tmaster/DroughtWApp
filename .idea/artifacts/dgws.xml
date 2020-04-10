@@ -7,7 +7,6 @@
           <element id="module-output" name="DroughtGWS" />
         </element>
         <element id="directory" name="lib">
-          <element id="library" level="project" name="javax.ws.rs-api-2.1.1" />
           <element id="library" level="project" name="Maven: com.googlecode.json-simple:json-simple:1.1" />
           <element id="library" level="project" name="Maven: commons-io:commons-io:2.5" />
           <element id="library" level="project" name="Maven: javax.annotation:javax.annotation-api:1.2" />

@@ -12,7 +12,7 @@
     </annotationProcessing>
     <bytecodeTargetLevel>
       <module name="CkanFiller" target="1.6" />
-      <module name="DroughtGWS" target="1.6" />
+      <module name="DroughtGWS" target="1.8" />
       <module name="DroughtWApp" target="8" />
     </bytecodeTargetLevel>
   </component>
