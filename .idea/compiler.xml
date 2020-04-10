@@ -6,11 +6,13 @@
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
+        <module name="CkanFiller" />
         <module name="DroughtWApp" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
-      <module name="DroughtGWS" target="1.8" />
+      <module name="CkanFiller" target="1.6" />
+      <module name="DroughtGWS" target="1.6" />
       <module name="DroughtWApp" target="8" />
     </bytecodeTargetLevel>
   </component>
