@@ -4,7 +4,8 @@
  * Created by lerocchi on 17/05/17.
  */
 
-
+const AREA_TOO_BIG_TXT = 'Selected area is too big! Please, select smaller one';
+const MAX_AREA = 70000;
 
 //Global variables
 var draw;
@@ -32,6 +33,7 @@ var poygonIsDrawed;
 var freeMode;
 var defaultMode;
 var identifyMode;
+var forceUpdateExtent;  //boolean for forcing extent update when user changed image type but the system didn't recognize any image
 
 
 /// LR - 12-12-2019 - functions for managing layers in geoJson format
@@ -289,11 +291,10 @@ var measureTooltipElement;
 function calcArea(polygon) {
     var area = ol.sphere.getArea(polygon);
     var output;
-    if (area > 10000) {
-        output = (Math.round(area / 1000000 * 100) / 100);
-    } else {
-        output = (Math.round(area * 100) / 100);
-    }
+
+    output = area * 111139;  // translate in meters
+    output = output / 1000;  // translate in km
+
     return output;
 };
 
@@ -363,7 +364,10 @@ function updateExtent(){
     //calculate area of polygon
     areaofPolygon = calcArea(geom);
 
-
+    if(areaofPolygon > MAX_AREA){
+        alert(AREA_TOO_BIG_TXT);
+        return;
+    }
 
     boxExtent = geom.getExtent();
 
@@ -373,6 +377,7 @@ function updateExtent(){
 
     var sourceImg = new ol.source.ImageStatic({
         attributions: [],
+        imageSmoothing: false,
         url: '' + baseurl + '/api/download/j_get_whole_png/' + imgtype + '/' + year + '/' + doy + '/polygon/' + polygonText + '/srid_from/4326',
         //       projection: projection,
         imageExtent: boxExtent
@@ -386,23 +391,6 @@ function updateExtent(){
 
 
     var lyrSource = extractedImage.getSource();
-
-    lyrSource.on('postcompose', function(evt) {
-
-        evt.context.imageSmoothingEnabled = false;
-        evt.context.webkitImageSmoothingEnabled = false;
-        evt.context.mozImageSmoothingEnabled = false;
-        evt.context.msImageSmoothingEnabled = false;
-
-    });
-    lyrSource.on('precompose', function(evt) {
-        const vectorContext = ol.render.getVectorContext(evt);
-
-        evt.context.imageSmoothingEnabled = false;
-        evt.context.webkitImageSmoothingEnabled = false;
-        evt.context.mozImageSmoothingEnabled = false;
-        evt.context.msImageSmoothingEnabled = false;
-    });
 
 
     lyrSource.on('imageloadstart', function(event) {
@@ -448,6 +436,10 @@ function changePolygon(){
     //calculate area of polygon
     areaofPolygon = calcArea(geom);
 
+    if(areaofPolygon > MAX_AREA){
+        alert(AREA_TOO_BIG_TXT);
+        return;
+    }
     boxExtent = geom.getExtent();
 
 
@@ -456,6 +448,7 @@ function changePolygon(){
         //create new imageStatic
         var sourceImg = new ol.source.ImageStatic({
             attributions: [],
+            imageSmoothing: false,
             url: '' + baseurl + '/api/download/j_get_whole_png/' + imgtype + '/' + year + '/' + doy + '/polygon/' + polygonText + '/srid_from/4326',
             //       projection: projection,
             imageExtent: boxExtent
@@ -470,23 +463,6 @@ function changePolygon(){
 
         var lyrSource = extractedImage.getSource();
 
-        lyrSource.on('postcompose', function(evt) {
-
-
-            evt.context.imageSmoothingEnabled = false;
-            evt.context.webkitImageSmoothingEnabled = false;
-            evt.context.mozImageSmoothingEnabled = false;
-            evt.context.msImageSmoothingEnabled = false;
-
-        });
-        lyrSource.on('precompose', function(evt) {
-
-
-            evt.context.imageSmoothingEnabled = false;
-            evt.context.webkitImageSmoothingEnabled = false;
-            evt.context.mozImageSmoothingEnabled = false;
-            evt.context.msImageSmoothingEnabled = false;
-        });
 
 
         lyrSource.on('imageloadstart', function(event) {
@@ -510,11 +486,7 @@ function changePolygon(){
         imgLoaded = true;
     }
 
-    //TODO: togliere
-    //  var pTxt = document.getElementById('polyTxtHidden');
-    //  pTxt.value.innerHTML = polygonText;
 
-    //   PF('polyTxtHidden2').setValue = polygonText;
 }
 
 //function to inizialize general consts
@@ -530,11 +502,7 @@ function initJS(baseurlt, polygonTextt){  //}), basePolyt){
 
     changePolygon();
 
-    //TODO: togliere
-    //  var pTxt = document.getElementById('polyTxtHidden');
-    //  pTxt.value.innerHTML = polygonText;
 
-    //   PF('polyTxtHidden2').setValue = polygonText;
 
 }
 
@@ -546,6 +514,7 @@ function changeDefault(){
     defaultMode = true;
     identifyMode = false;
     freeMode = false;
+    forceUpdateExtent=false;
     changePolygon();
 }
 
@@ -557,6 +526,7 @@ function changeFree(){
     defaultMode = false;
     identifyMode = false;
     freeMode = true;
+    forceUpdateExtent = true;
     activatePolygon();
 }
 
@@ -595,6 +565,11 @@ function changeMode(){
 //remove raster layer from the map
 function deleteRaster(){
     map.removeLayer(extractedImage);
+    if(freeMode){
+        forceUpdateExtent=true;
+    }else{
+        forceUpdateExtent=false;
+    }
 }
 
 //change loaded image with another one by selecting new reference date or type
@@ -602,66 +577,58 @@ function deleteRaster(){
 
 
 function changeImageJS(){
-
-    if(imgLoaded){
-        map.removeLayer(extractedImage);
-
-
-        var sourceImg = new ol.source.ImageStatic({
-            attributions: [],
-            url: '' + baseurl + '/api/download/j_get_whole_png/' + imgtype + '/' + year + '/' + doy + '/polygon/' + polygonText + '/srid_from/4326',
-            //       projection: projection,
-            imageExtent: boxExtent
-        });
-
-        extractedImage = new ol.layer.Image({
-            source: sourceImg,
-            opacity: 0.6
-        });
+    if(forceUpdateExtent == true){
+        forceUpdateExtent = false;
+        updateFreeImagePolygon(baseurl + '/api/download/j_get_extent/' + imgtype + '/' + year + '/' + doy + '/polygon/' + polygonText + '/srid_from/4326', updateExtent);
+    }else{
+        if(imgLoaded){
+            map.removeLayer(extractedImage);
 
 
+            var sourceImg = new ol.source.ImageStatic({
+                attributions: [],
+                imageSmoothing: false,
+                url: '' + baseurl + '/api/download/j_get_whole_png/' + imgtype + '/' + year + '/' + doy + '/polygon/' + polygonText + '/srid_from/4326',
+                //       projection: projection,
+                imageExtent: boxExtent
+            });
 
-        var lyrSource = extractedImage.getSource();
-
-        lyrSource.on('postcompose', function(evt) {
-
-            evt.context.imageSmoothingEnabled = false;
-            evt.context.webkitImageSmoothingEnabled = false;
-            evt.context.mozImageSmoothingEnabled = false;
-            evt.context.msImageSmoothingEnabled = false;
-
-        });
-        lyrSource.on('precompose', function(evt) {
-
-            evt.context.imageSmoothingEnabled = false;
-            evt.context.webkitImageSmoothingEnabled = false;
-            evt.context.mozImageSmoothingEnabled = false;
-            evt.context.msImageSmoothingEnabled = false;
-        });
+            extractedImage = new ol.layer.Image({
+                source: sourceImg,
+                opacity: 0.6
+            });
 
 
-        lyrSource.on('imageloadstart', function(event) {
-            console.log('imageloadstart event fired');
-            activateModalWidget();
-        });
 
-        lyrSource.on('imageloadend', function(event) {
-            console.log('imageloadend event fired');
-            hideModalWidget();
+            var lyrSource = extractedImage.getSource();
 
-        });
-        lyrSource.on('imageloaderror', function(event) {
-            console.log('imageloaderror event fired');
-            hideModalWidget();
-        });
 
-        //  extractedImage.set('image-rendering','-moz-crisp-edges');
 
-        map.addLayer(extractedImage);
+
+            lyrSource.on('imageloadstart', function(event) {
+                console.log('imageloadstart event fired');
+                activateModalWidget();
+            });
+
+            lyrSource.on('imageloadend', function(event) {
+                console.log('imageloadend event fired');
+                hideModalWidget();
+
+            });
+            lyrSource.on('imageloaderror', function(event) {
+                console.log('imageloaderror event fired');
+                hideModalWidget();
+            });
+
+            //  extractedImage.set('image-rendering','-moz-crisp-edges');
+
+            map.addLayer(extractedImage);
+        }
     }
 
-}
 
+
+}
 
 
 
@@ -680,6 +647,7 @@ function change_image(url_image, extin){
         source: new ol.source.ImageStatic({
             attributions: [],
             url: url_image,
+            imageSmoothing: false,
             projection: projection,
             imageExtent: extent
         }),
@@ -687,21 +655,6 @@ function change_image(url_image, extin){
     });
 
 
-    extractedImage.on('postcompose', function(evt) {
-
-        evt.context.imageSmoothingEnabled = false;
-        evt.context.webkitImageSmoothingEnabled = false;
-        evt.context.mozImageSmoothingEnabled = false;
-        evt.context.msImageSmoothingEnabled = false;
-
-    });
-    extractedImage.on('precompose', function(evt) {
-
-        evt.context.imageSmoothingEnabled = false;
-        evt.context.webkitImageSmoothingEnabled = false;
-        evt.context.mozImageSmoothingEnabled = false;
-        evt.context.msImageSmoothingEnabled = false;
-    });
 
     //  extractedImage.set('image-rendering','-moz-crisp-edges');
     map.addLayer(extractedImage);
@@ -740,6 +693,7 @@ function activatePolygon(){
         var coords = " " +  geom.getCoordinates()[0];
 
 
+
         var coordsArr = coords.replace("["," ");
         coordsArr = coordsArr.replace("]"," ");
         coordsArr = coordsArr.split(",");
@@ -752,7 +706,10 @@ function activatePolygon(){
 
         //calculate area of polygon
         areaofPolygon = calcArea(geom);
-
+        if(areaofPolygon > MAX_AREA){
+            alert(AREA_TOO_BIG_TXT);
+            return;
+        }
 
         source4Interaction.addFeature(featIn);   //Add new feature to vector source
 
@@ -786,8 +743,14 @@ function activatePolygon(){
 
 }
 
+//force updateFreeImagePolygon when user changes active image type
 function switchDataType(){
-    updateFreeImagePolygon(baseurl + '/api/download/j_get_extent/' + imgtype + '/' + year + '/' + doy + '/polygon/' + polygonText + '/srid_from/4326', updateExtent);
+    if(freeMode){
+        updateFreeImagePolygon(baseurl + '/api/download/j_get_extent/' + imgtype + '/' + year + '/' + doy + '/polygon/' + polygonText + '/srid_from/4326', updateExtent);
+    }else{
+        changeImageJS();
+    }
+
 }
 
 
@@ -856,20 +819,6 @@ function init(){
         },
         target: 'coordinates'
     }));
-    map.on('precompose', function(evt) {
-        evt.context.imageSmoothingEnabled = false;
-        evt.context.webkitImageSmoothingEnabled = false;
-        evt.context.mozImageSmoothingEnabled = false;
-        evt.context.msImageSmoothingEnabled = false;
-
-    });
-    map.on('postcompose', function(evt) {
-        evt.context.imageSmoothingEnabled = true;
-        evt.context.webkitImageSmoothingEnabled = true;
-        evt.context.mozImageSmoothingEnabled = true;
-        evt.context.msImageSmoothingEnabled = true;
-    });
-
 
 }
 

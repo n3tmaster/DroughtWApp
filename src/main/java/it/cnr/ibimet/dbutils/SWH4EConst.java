@@ -13,7 +13,7 @@ public interface SWH4EConst {
 
 
     //Drought Observatory Generic consts
-    final public String BASEURL = "https://droughtsdi.fi.ibimet.cnr.it/dgws";
+    final public String BASEURL = "https://droughtsdi.fi.ibimet.cnr.it/dgws6";
     final public String BASE_EXTENT = "italy"; //TODO: da modificare
 
     final public String TCI = "TCI";
