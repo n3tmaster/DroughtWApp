@@ -204,11 +204,12 @@ public class BTimeline implements Serializable {
         selectedRaster = result.get(0);
         selectedEvent = timelineEvent;
         firstLoad = false;
-      //  RequestContext.getCurrentInstance().execute("changeParamsJS('"+selectedRaster.getRasterType()+"','"+selectedRaster.getYear()+"','"+selectedRaster.getMonth()+"','"+selectedRaster.getDay()+"','"+selectedRaster.getDoy()+"')");
+
+        //update params in JS session
         PrimeFaces.current().executeScript("changeParamsJS('"+selectedRaster.getRasterType()+"','"+selectedRaster.getYear()+"','"+selectedRaster.getMonth()+"','"+selectedRaster.getDay()+"','"+selectedRaster.getDoy()+"')");
 
-//        RequestContext.getCurrentInstance().execute("changeImageJS()");
-       PrimeFaces.current().executeScript("changeImageJS()");
+        //change load images
+        PrimeFaces.current().executeScript("changeImageJS()");
 
     }
 
@@ -270,10 +271,12 @@ public class BTimeline implements Serializable {
 
 
                     PrimeFaces.current().executeScript("changeParamsJS('"+selectedRaster.getRasterType()+"','"+selectedRaster.getYear()+"','"+selectedRaster.getMonth()+"','"+selectedRaster.getDay()+"','"+selectedRaster.getDoy()+"')");
-
                     PrimeFaces.current().executeScript("switchDataType()");
 
-                    PrimeFaces.current().executeScript("changeImageJS()");
+                   // PrimeFaces.current().executeScript("changeImageJS()");
+
+
+
 
 
                 }else{

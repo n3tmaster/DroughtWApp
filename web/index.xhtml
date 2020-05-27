@@ -14,18 +14,12 @@
    <h:head>
 
       <!-- for OpenLayers integration -->
+      <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/openlayers/openlayers.github.io@master/en/v6.3.1/css/ol.css" type="text/css" />
+      <script type="text/javascript"  src="https://cdn.jsdelivr.net/gh/openlayers/openlayers.github.io@master/en/v6.3.1/build/ol.js" />
 
-      <!-- Old version
-      <link rel="stylesheet" href="https://openlayers.org/en/v4.6.5/css/ol.css" type="text/css" />
-      -->
 
       <link rel="stylesheet" href="css/ch01.css" />
       <link rel="stylesheet" href="css/pf.css" />
-      <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/openlayers/openlayers.github.io@master/en/v6.2.1/css/ol.css" />
-
-
-      <script type="text/javascript" src="https://cdn.rawgit.com/openlayers/openlayers.github.io/master/en/v5.3.0/build/ol.js" ></script>
-
 
       <script type="text/javascript"  src="js/basefuncs.js" ></script>
       <script type="text/javascript"  src="js/charts.js" ></script>
@@ -34,6 +28,7 @@
       <link rel="stylesheet" href="css/ch01.css" />
       <link rel="stylesheet" href="css/pf.css" />
       <h:outputStylesheet name="primeicons/primeicons.css" library="primefaces"/>
+
       <!--  -->
       <title>Drought Observatory</title>
    </h:head>
@@ -42,6 +37,7 @@
 
 
       <h:outputScript library="webjars" name="/jqplot/1.0.9.d96a669/plugins/jqplot.canvasOverlay.js" target="head" />
+
 
       <p:ajaxStatus onstart="PF('statusDialog').show()" onsuccess="PF('statusDialog').hide()" />
       <p:growl id="growl" showSummary="true" showDetail="true">
