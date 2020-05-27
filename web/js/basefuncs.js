@@ -734,12 +734,6 @@ function activatePolygon(){
     map.addInteraction(interaction);
 
 
-    //TODO: Togliere
-    //var pTxt = document.getElementById('polyTxtHidden');
-    //pTxt.value.innerHTML = polygonText;
-
-
-    //PF('polyTxtHidden2').setValue = polygonText;
 
 }
 

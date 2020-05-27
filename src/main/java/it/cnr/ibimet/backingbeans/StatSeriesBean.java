@@ -178,7 +178,6 @@ public class StatSeriesBean implements Serializable {
             }
 
         } catch (Exception e) {
-            // TODO Auto-generated catch block
             e.printStackTrace();
         }
 
