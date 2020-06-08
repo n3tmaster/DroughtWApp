@@ -83,10 +83,14 @@
 
 
       <p:layout fullPage="true" id="maingui" binding="#{maingui}">
-         <p:layoutUnit binding="#{toolb}" position="north" size="50" >
+         <p:layoutUnit binding="#{toolb}" position="north" size="55" >
             <div id="toolbar" class="toolbar" style="height: 99%;">
+                  <p:graphicImage url="resources/images/logo_header_observatory.png"  />
+                  <p:spacer />
 
-               <p:graphicImage url="resources/images/logo_header_observatory.png"  />
+                  <p:outputLabel value="WARNING: Due to an enlargement of the spatial extent, and an improvement of the computational procedures, some indices are not yet updated."
+                                 style="font-size: large; color: white; " />
+
 
             </div>
          </p:layoutUnit>

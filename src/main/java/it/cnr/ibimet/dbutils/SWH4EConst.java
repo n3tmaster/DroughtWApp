@@ -13,7 +13,7 @@ public interface SWH4EConst {
 
 
     //Drought Observatory Generic consts
-    final public String BASEURL = "https://droughtsdi.fi.ibimet.cnr.it/dgws6";
+    final public String BASEURL = "https://droughtsdi.fi.ibimet.cnr.it/dgws";
     final public String BASE_EXTENT = "italy"; //TODO: da modificare
 
     final public String TCI = "TCI";
@@ -85,6 +85,11 @@ public interface SWH4EConst {
     String NONE_STR = "none;";
 
     int TILE_LENGTH = 30;
+
+    //email list
+    //TODO: Da cambiare appena possibile
+    String EMAILFROM = "lerocchi@gmail.com";
+    String EMAILTO = "l.rocchi@ibimet.cnr.it";
 
 
 }
