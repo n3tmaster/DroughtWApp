@@ -34,15 +34,15 @@
           <element id="library" level="project" name="Maven: org.javassist:javassist:3.20.0-GA" />
           <element id="library" level="project" name="Maven: org.jvnet.mimepull:mimepull:1.9.6" />
           <element id="library" level="project" name="Maven: org.postgresql:postgresql:42.0.0" />
-          <element id="library" level="project" name="Maven: org.primefaces:primefaces:6.2" />
           <element id="library" level="project" name="Mojarra-2.2.1" />
           <element id="library" level="project" name="utils-1" />
           <element id="library" level="project" name="Maven: org.webjars:jqplot:1.0.9.d96a669-1" />
           <element id="library" level="project" name="Maven: org.webjars:explorercanvas:r3" />
           <element id="library" level="project" name="Maven: org.webjars:jquery:1.8.3" />
-          <element id="library" level="project" name="Maven: org.primefaces:primefaces:7.0" />
-          <element id="library" level="project" name="Maven: com.thetransactioncompany:java-property-utils:1.9.1" />
-          <element id="library" level="project" name="Maven: com.thetransactioncompany:cors-filter:2.6" />
+          <element id="library" level="project" name="Maven: org.primefaces:primefaces:8.0" />
+          <element id="library" level="project" name="Maven: commons-io:commons-io:2.8.0" />
+          <element id="library" level="project" name="Maven: com.thetransactioncompany:java-property-utils:1.13" />
+          <element id="library" level="project" name="Maven: com.thetransactioncompany:cors-filter:2.9.1" />
         </element>
       </element>
       <element id="javaee-facet-resources" facet="DroughtWApp/web/Web" />

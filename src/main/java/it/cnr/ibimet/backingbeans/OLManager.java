@@ -19,6 +19,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 import java.util.List;
+import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
 /**
@@ -28,6 +29,7 @@ import java.util.stream.Collectors;
 @ViewScoped
 public class OLManager implements Serializable,SWH4EConst {
 
+    static Logger logger = Logger.getLogger(String.valueOf(OLManager.class));
     private String indexType;
     public String getIndexType() {
         return indexType;
@@ -36,6 +38,7 @@ public class OLManager implements Serializable,SWH4EConst {
     private ImageType selectedImageType;
     private boolean valueDefault, valueFree, valueIdentify,value;
     private String the_geom, ol_the_geom;
+
 
     @ManagedProperty(value="#{timeLine}")
     private BTimeline bTimeline;
@@ -112,8 +115,8 @@ public class OLManager implements Serializable,SWH4EConst {
 
     @PostConstruct
     public void init(){
-        System.out.println("olManager - init");
 
+        logger.info("init");
 
         valueDefault = true;
         valueFree = false;
@@ -122,7 +125,8 @@ public class OLManager implements Serializable,SWH4EConst {
         //value = false;
         populateRasterTypeList();
 
-        bTimeline.populateAcquisitions(selectedImageType.getId_imgtype(), selectedImageType.getName());
+        logger.info("ImageType: "+selectedImageType.getId_imgtype()+" - "+selectedImageType.getName()+ " - "+ selectedImageType.isOnce());
+        bTimeline.populateAcquisitions(selectedImageType.getId_imgtype(), selectedImageType.getName(), selectedImageType.isOnce());
 
         the_geom = BASE_EXTENT;
 
@@ -208,13 +212,14 @@ public class OLManager implements Serializable,SWH4EConst {
         TDBManager dsm=null;
         try {
 
+            logger.info("connecting");
             dsm = new TDBManager("jdbc/ssdb");
 
 
 
-            System.out.println("populateRasterTypeList - connected");
 
-            String sqlString="select id_imgtype, imgtype, description, calculated, info from postgis.imgtypes where output=true order by thisorder";
+
+            String sqlString="select id_imgtype, imgtype, description, calculated, info, once from postgis.imgtypes where output=true order by thisorder";
 
             dsm.setPreparedStatementRef(sqlString);
             dsm.runPreparedQuery();
@@ -222,7 +227,7 @@ public class OLManager implements Serializable,SWH4EConst {
             imageTypeList = new ArrayList<ImageType>();
 
             while(dsm.next()){
-                this.imageTypeList.add(new ImageType(dsm.getInteger(1), dsm.getString(2), dsm.getString(3), dsm.getBoolean(4), dsm.getString(5)));
+                this.imageTypeList.add(new ImageType(dsm.getInteger(1), dsm.getString(2), dsm.getString(3), dsm.getBoolean(4), dsm.getString(5), dsm.getBoolean(6)));
             }
 
             this.selectedImageType = this.imageTypeList.get(0);
@@ -231,8 +236,10 @@ public class OLManager implements Serializable,SWH4EConst {
         } catch (Exception e) {
 
             e.printStackTrace();
+            logger.warning(e.getMessage());
         } finally{
             try{
+                logger.info("closing connection");
                 dsm.closeConnection();
             }catch(Exception e){
                 e.getStackTrace();
@@ -245,27 +252,72 @@ public class OLManager implements Serializable,SWH4EConst {
      * @param event
      */
     public void onChange(TabChangeEvent event) {
-
-
+        TDBManager dsm=null;
         Tab activeTab = event.getTab();
 
+        logger.info("sono qui");
+        try{
+
+
+        Calendar calendar=null;
         List<ImageType> result = imageTypeList.stream()
                 .filter(item -> item.getDescription()
                         .equals( activeTab.getTitle()))
                 .collect(Collectors.toList());
 
         selectedImageType = result.get(0);
-        bTimeline.populateAcquisitions(selectedImageType.getId_imgtype(),selectedImageType.getName());
 
+        logger.info("Check image : "+selectedImageType.getName() );
+        //check for once image type
+       if(selectedImageType.isOnce()){
+            logger.info("Once image type");
+            bTimeline.initialize();
+
+                logger.info("open connection");
+                dsm = new TDBManager("jdbc/ssdb");
+
+
+                String sqlString="select id_acquisizione, dtime from postgis.acquisizioni inner join postgis.imgtypes using (id_imgtype) where id_imgtype="+selectedImageType.getId_imgtype()+" order by dtime desc";
+
+                dsm.setPreparedStatementRef(sqlString);
+                dsm.runPreparedQuery();
+
+                if(dsm.next()){
+                    calendar = dsm.getData(2);
+                    logger.info("call changeParamJS");
+                    //update params in JS session
+                    PrimeFaces.current().executeScript("changeParamsJS('"+selectedImageType.getName()+"','"+calendar.get(Calendar.YEAR)+"','"+(calendar.get(Calendar.MONTH)+1)+"','"+calendar.get(Calendar.DAY_OF_MONTH)+"','"+calendar.get(Calendar.DAY_OF_YEAR)+"')");
+
+                    //change load images
+                    PrimeFaces.current().executeScript("changeImageJS()");
+                }
+
+
+
+
+        }else{
+            logger.info("Regular image type");
+            bTimeline.populateAcquisitions(selectedImageType.getId_imgtype(),selectedImageType.getName(), selectedImageType.isOnce());
+        }
+
+    //    logger.info("Regular image type");
+    //    bTimeline.populateAcquisitions(selectedImageType.getId_imgtype(),selectedImageType.getName(), selectedImageType.isOnce());
+        } catch (Exception e) {
+
+            e.printStackTrace();
+        } finally{
+            try{
+                dsm.closeConnection();
+            }catch(Exception e){
+                e.getStackTrace();
+            }
+        }
 
 
     }
 
     public void changeMode(){
 
-        System.out.println("prima: "+value);
-
-        System.out.println("e ora: "+value);
     }
 
 

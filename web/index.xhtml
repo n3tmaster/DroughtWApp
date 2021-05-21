@@ -86,10 +86,8 @@
          <p:layoutUnit binding="#{toolb}" position="north" size="55" >
             <div id="toolbar" class="toolbar" style="height: 99%;">
                   <p:graphicImage url="resources/images/logo_header_observatory.png"  />
-                  <p:spacer />
+                  <p:spacer width="20" />
 
-                  <p:outputLabel value="WARNING: Due to an enlargement of the spatial extent, and an improvement of the computational procedures, some indices may be not yet updated."
-                                 style="font-size: large; color: white; " />
 
 
             </div>
@@ -174,7 +172,6 @@
                <p:timeline id="timelineComp" binding="#{timelineComp}"
                            value="#{timeLine.model}" height="170px" width="99%"
                            selectable="#{timeLine.selectable}"
-                           unselectable="#{timeLine.unselectable}"
                            zoomable="#{timeLine.zoomable}"
                            moveable="#{timeLine.moveable}"
                            zoomMax="#{timeLine.zoomMax}"
@@ -182,11 +179,8 @@
                            start="#{timeLine.dI}"
                            end="#{timeLine.dF}"
                            stackEvents="#{timeLine.stackEvents}"
-                           axisOnTop="#{timeLine.axisOnTop}"
                            eventStyle="#{timeLine.eventStyle}"
-                           browserTimeZone="null"
-                           showCurrentTime="#{timeLine.showCurrentTime}"
-                           showNavigation="#{timeLine.showNavigation}">
+                           showCurrentTime="#{timeLine.showCurrentTime}">
                   <p:ajax event="select" listener="#{timeLine.onSelect}"/>
                </p:timeline>
 

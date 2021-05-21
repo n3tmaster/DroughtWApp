@@ -16,11 +16,14 @@ import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 import java.io.Serializable;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.List;
+import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
 
@@ -28,7 +31,8 @@ import java.util.stream.Collectors;
 @ManagedBean(name="timeLine")
 @ViewScoped
 public class BTimeline implements Serializable {
-    private TimelineModel model;
+    static Logger logger = Logger.getLogger(String.valueOf(BTimeline.class));
+    private TimelineModel<String, ?> model;
     private boolean selectable = true;
     private boolean zoomable = true;
     private boolean moveable = true;
@@ -48,13 +52,13 @@ public class BTimeline implements Serializable {
     private SatelliteRaster selectedRaster;
     private TimelineEvent selectedEvent;
     private boolean firstLoad;
-    private Date dF, dI;
+    private LocalDateTime dF, dI;
 
     public boolean isUnselectable() {
         return unselectable;
     }
 
-    public Date getdF() {
+    public LocalDateTime getdF() {
         return dF;
     }
 
@@ -71,7 +75,7 @@ public class BTimeline implements Serializable {
         return selectedEvent;
     }
 
-    public Date getdI() {
+    public LocalDateTime getdI() {
         return dI;
     }
 
@@ -173,6 +177,7 @@ public class BTimeline implements Serializable {
 
     @PostConstruct
     protected void initialize() {
+        logger.info("init");
         model = new TimelineModel();
 
         satelliteRasterList = new ArrayList<SatelliteRaster>();
@@ -187,14 +192,14 @@ public class BTimeline implements Serializable {
 
 
         newGregCal.add(Calendar.DAY_OF_YEAR, -120);
-        dI = newGregCal.getTime();
+        dI = LocalDateTime.of(newGregCal.get(Calendar.YEAR), (newGregCal.get(Calendar.MONTH)+1), newGregCal.get(Calendar.DAY_OF_MONTH),0,0);
 
         newGregCal.add(Calendar.DAY_OF_YEAR, 127);
-        dF = newGregCal.getTime();
+        dF = LocalDateTime.of(newGregCal.get(Calendar.YEAR), (newGregCal.get(Calendar.MONTH)+1), newGregCal.get(Calendar.DAY_OF_MONTH),0,0);
     }
 
     public void onSelect(TimelineSelectEvent e) {
-        TimelineEvent timelineEvent = e.getTimelineEvent();
+       TimelineEvent timelineEvent = e.getTimelineEvent();
 
 
         List<SatelliteRaster> result = satelliteRasterList.stream()
@@ -217,23 +222,26 @@ public class BTimeline implements Serializable {
     /**
      * create acquisition list
      */
-    public void populateAcquisitions(int id_imgtype, String name){
+    public void populateAcquisitions(int id_imgtype, String name, boolean once){
         satelliteRasterList.clear();
         model.clear();
         TDBManager dsm=null;
         try {
 
+            logger.info("open connection");
             dsm = new TDBManager("jdbc/ssdb");
 
             SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy");
 
-            System.out.println("populate acquisitions for "+id_imgtype);
+            logger.info("populate acquisitions for "+id_imgtype);
 
 
-            String sqlString="select id_acquisizione, dtime from postgis.acquisizioni where id_imgtype="+id_imgtype+" order by dtime desc";
+            String sqlString="select id_acquisizione, dtime from postgis.acquisizioni inner join postgis.imgtypes using (id_imgtype) where id_imgtype="+id_imgtype+" and once is false order by dtime desc";
 
             dsm.setPreparedStatementRef(sqlString);
             dsm.runPreparedQuery();
+
+            //check if we have just only one image
 
             while(dsm.next()){
 
@@ -241,8 +249,10 @@ public class BTimeline implements Serializable {
 
                 Calendar calendar = dsm.getData(2);
 
-                model.add(new TimelineEvent(name+" - "+sdf.format(calendar.getTime()),calendar.getTime()));
+                model.add(TimelineEvent.<String>builder().data(name+" - "+sdf.format(calendar.getTime()))
+                        .startDate(LocalDate.of(calendar.get(Calendar.YEAR), (calendar.get(Calendar.MONTH)+1), calendar.get(Calendar.DAY_OF_MONTH))).build());
             }
+
 
 
 
@@ -251,8 +261,10 @@ public class BTimeline implements Serializable {
 
             }else{
 
-                selectedEvent  = new TimelineEvent(name+" - "+sdf.format(selectedRaster.getDtime().getTime()),selectedEvent.getStartDate());
+           //     selectedEvent  = new TimelineEvent(name+" - "+sdf.format(selectedRaster.getDtime().getTime()),selectedEvent.getStartDate());
 
+                selectedEvent = TimelineEvent.<String>builder().data(name+" - "+sdf.format(selectedRaster.getDtime().getTime()))
+                        .startDate(selectedEvent.getStartDate()).build();
 
                 List<SatelliteRaster> result = satelliteRasterList.stream()
                              .filter(item -> item.getRasterName()

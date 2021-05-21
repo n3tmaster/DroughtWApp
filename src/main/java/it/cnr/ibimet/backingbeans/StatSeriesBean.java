@@ -19,11 +19,14 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 import java.util.List;
+import java.util.logging.Logger;
 
 
 @ManagedBean(name="statSeriesBean")
 @ViewScoped
 public class StatSeriesBean implements Serializable {
+    static Logger logger = Logger.getLogger(String.valueOf(StatSeriesBean.class));
+
     @ManagedProperty(value="#{olManager}")
     private OLManager olManager;
     private LineChartModel model;
@@ -129,7 +132,7 @@ public class StatSeriesBean implements Serializable {
 
     @PostConstruct
     public void init(){
-        System.out.println("statSeries - init");
+        logger.info("init");
         model = new LineChartModel();
         series1 =new LineChartSeries();
 

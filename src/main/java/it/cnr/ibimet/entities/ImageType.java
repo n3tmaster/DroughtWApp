@@ -10,6 +10,7 @@ public class ImageType implements Serializable {
     private boolean calculated;
     private String calculatedStr;
     private String info;
+    private boolean once;
 
 
     private final static String CALCULATED = "(Calculated)";
@@ -17,6 +18,14 @@ public class ImageType implements Serializable {
 
     public int getId_imgtype() {
         return id_imgtype;
+    }
+
+    public boolean isOnce() {
+        return once;
+    }
+
+    public void setOnce(boolean once) {
+        this.once = once;
     }
 
     public void setId_imgtype(int id_imgtype) {
@@ -89,6 +98,12 @@ public class ImageType implements Serializable {
     public ImageType(int id_imgtype, String name, String description, boolean calculated, String info){
         this(id_imgtype,name,description,calculated);
         this.info = info;
+
+    }
+
+    public ImageType(int id_imgtype, String name, String description, boolean calculated, String info, boolean once){
+        this(id_imgtype,name,description,calculated,info);
+        this.once = once;
 
     }
 }
