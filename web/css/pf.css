@@ -8,8 +8,8 @@ AccordionPanel customization
 
 
 .timeline-frame{
-    border-color: #2b2b2b;
-    background-color: #2b2b2b;
+    border-color: #FFFFFF;
+    background-color: #FFFFFF;
 }
 
 .ui-layout-unit.ui-corner-all{
@@ -98,18 +98,21 @@ AccordionPanel customization
 }
 
 
+.timeline-axis-text {
+    color: #F7D100;
+    font-size: large;
+}
+
 .timeline-event{
     font-size: 9px;
     font-weight: bold;
 
 }
+.timeline-axis {
+    border-color: white;
+    background-color: white;
+}
 
-.timeline-frame {
-    color: #f4f7f9;
-}
-.timeline-frame {
-    color: #ffffff;
-}
 
 .olImageStatic{
     image-rendering: -moz-crisp-edges;

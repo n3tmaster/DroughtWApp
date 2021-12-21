@@ -5,7 +5,7 @@
  */
 
 const AREA_TOO_BIG_TXT = 'Selected area is too big! Please, select smaller one';
-const MAX_AREA = 70000;
+const MAX_AREA = 20000;
 
 //Global variables
 var draw;
@@ -542,26 +542,6 @@ function changeIdentify(){
 
 }
 
-/*
-function changeMode(){
-    if(actualMode){
-        actualMode=false;
-        if(identifyMode){
-        	map.on('click',getPixelCoords);
-        }
-        changePolygon();
-    }else{
-        actualMode=true;
-        if(identifyMode){
-        	map.un('click',getPixelCoords);
-        }
-
-        activatePolygon();
-    }
-}
-*/
-
-
 //remove raster layer from the map
 function deleteRaster(){
     map.removeLayer(extractedImage);
@@ -797,8 +777,6 @@ function init(){
         view: new ol.View({
             projection: 'EPSG:4326',
             center: [12.00, 42.75],
-            smoothExtentConstraint: false,
-            smoothResolutionConstraint: false,
             zoom: 5
         }),
 
